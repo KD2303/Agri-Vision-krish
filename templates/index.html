@@ -1,4 +1,5 @@
-{% extends "base.html" %}`n{% block content %}
+{% extends "base.html" %}
+{% block content %}
     <!-- Professional Print Frame (Only visible in print) -->
     <div class="print-frame no-print"></div>
 
@@ -28,23 +29,20 @@
     </nav>
 
     <!-- Main Content -->
-    <main>
+    <div class="main-content">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-                <div class="main-content">
-                    <div class="alert-container no-print">
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{ category }}">
-                                <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %}"></i>
-                                <span>{{ message }}</span>
-                            </div>
-                        {% endfor %}
-                    </div>
+                <div class="alert-container no-print">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %}"></i>
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
                 </div>
             {% endif %}
         {% endwith %}
 
-        {% block content %}
         <section class="hero">
             <!-- Ambient Background Layers -->
             <div class="hero-bg-blobs">
@@ -169,6 +167,6 @@
                 </div>
             </div>
         </section>
-        {% endblock %}
+    </div>
 {% endblock %}
 
