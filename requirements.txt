@@ -36,5 +36,5 @@ pandas>=2.0.0
 # Database
 flask-sqlalchemy>=3.1.0
 
-# Rate Limiting (Iske bina automated tests fail ho rahe hain)
+# Rate Limiting
 flask-limiter>=3.5.0
