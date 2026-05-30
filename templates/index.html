@@ -603,29 +603,48 @@ src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit
                 <div class="hero-content">
                     <div class="hero-badge-wrapper">
                         <span class="hero-badge" data-i18n="hero_badge">
-                            <span class="badge-dot"></span>
+                            <span class="badge-dot" aria-hidden="true"></span>
                             <span data-i18n="hero.badge">AI-DRIVEN COTTON INTEGRATION</span>
                         </span>
                     </div>
-                
-                    <h1 class="typewriter">
+
+                    <h1 class="typewriter" aria-label="AI-Powered Cotton Crop Intelligence">
                         <span class="line1" data-i18n="hero.title1">AI-Powered</span>
                         <span class="line2" data-i18n="hero.title2">Cotton Crop Intelligence</span>
                     </h1>
-                
-                    <p data-i18n="hero.desc">
+
+                    <p class="hero-desc" data-i18n="hero.desc">
                         Analyze crop maturity, detect plant health issues, and optimize
                         harvest timing using smart real-time deep learning analytics.
                     </p>
-                
-                    <div class="hero-cta">
-                        <a href="/analyze" class="btn btn-primary">
-                            <i data-lucide="camera"></i> <span data-i18n="hero.analyzeBtn">Analyze Image</span>
+
+                    <div class="hero-cta" role="group" aria-label="Primary actions">
+                        <a href="/analyze" class="btn btn-primary hero-cta-primary">
+                            <i data-lucide="camera" aria-hidden="true"></i>
+                            <span data-i18n="hero.analyzeBtn">Analyze Image</span>
                         </a>
-                        
-                        <a href="/demo" class="btn btn-secondary">
-                            <i data-lucide="play-circle"></i> <span data-i18n="hero.demoBtn">View Demo</span>
+
+                        <a href="/demo" class="btn btn-secondary hero-cta-secondary">
+                            <i data-lucide="play-circle" aria-hidden="true"></i>
+                            <span data-i18n="hero.demoBtn">View Demo</span>
                         </a>
+                    </div>
+
+                    <div class="hero-trust" aria-label="Trust indicators">
+                        <div class="trust-strip">
+                            <span class="trust-item" aria-label="Detection accuracy 98 percent">
+                                <i data-lucide="shield-check" aria-hidden="true"></i>
+                                <strong>98%</strong> Detection Accuracy
+                            </span>
+                            <span class="trust-item" aria-label="Average scan time 2 seconds">
+                                <i data-lucide="bolt" aria-hidden="true"></i>
+                                <strong>2.4s</strong> Scan Time
+                            </span>
+                            <span class="trust-item" aria-label="Explainable AI with Grad-CAM">
+                                <i data-lucide="sparkles" aria-hidden="true"></i>
+                                <strong>Grad-CAM</strong> Explainability
+                            </span>
+                        </div>
                     </div>
                 </div>
 

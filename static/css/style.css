@@ -521,7 +521,7 @@ nav a[href="/model-admin"]:hover {
 .btn-secondary i, .btn-secondary svg.lucide { transition: transform 0.3s ease; }
 .btn-secondary:hover i, .btn-secondary:hover svg.lucide { transform: translateX(3px); }
 
-   /* HERO SECTION */
+/* HERO SECTION */
 .hero {
     position: relative;
     min-height: 90vh;
@@ -532,6 +532,7 @@ nav a[href="/model-admin"]:hover {
     overflow: hidden;
     transition: background-color 0.4s ease;
 }
+
 /* Language section */
 .language-switcher {
     padding: 6px 10px;
@@ -556,6 +557,7 @@ nav a[href="/model-admin"]:hover {
         opacity: 0.75;
     }
 }
+
 /* Ambient blobs */
 .hero-bg-blobs {
     position: absolute;
@@ -564,6 +566,77 @@ nav a[href="/model-admin"]:hover {
     pointer-events: {;
     z-index: 1;
 }
+
+/* ===== HERO VISUAL HIERARCHY UPDATES ===== */
+.hero-content {
+    /* Ensure reading rhythm and avoid competing right-side attention */
+    max-width: 620px;
+}
+
+.hero-content p.hero-desc {
+    max-width: 560px;
+}
+
+
+/* Trust strip placed after CTAs to support conversion flow */
+.hero-trust {
+    margin-top: 1.3rem;
+}
+
+.trust-strip {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: 16px;
+    background: rgba(46, 139, 87, 0.07);
+    border: 1px solid rgba(46, 139, 87, 0.12);
+    color: var(--deep-forest);
+    font-weight: 700;
+    letter-spacing: -0.1px;
+}
+
+.trust-item strong {
+    font-size: 1rem;
+}
+
+.trust-item svg,
+.trust-item i {
+    color: var(--emerald-green);
+}
+
+/* CTA prominence */
+.hero-cta-primary {
+    box-shadow: 0 12px 30px rgba(46, 139, 87, 0.25);
+}
+
+.hero-cta-secondary {
+    opacity: 0.98;
+}
+
+/* Reduced motion: disable noisy animations that compete with content */
+@media (prefers-reduced-motion: reduce) {
+    .scanner-laser,
+    .floating-telemetry-1,
+    .floating-telemetry-2,
+    .typewriter span {
+        animation: none !important;
+    }
+
+    html.is-animating .transition-fade,
+    html.is-leaving .transition-fade {
+        transition: none !important;
+    }
+}
+
 
 .blob {
     position: absolute;
