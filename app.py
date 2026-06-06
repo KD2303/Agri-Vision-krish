@@ -10,6 +10,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 import os
 import random
 import re
+import functools
 import threading
 from datetime import datetime
 from typing import Any, Dict, Optional, Tuple
@@ -286,7 +287,7 @@ class ModelManager:
                             RESNET_MODEL_PATH,
                             map_location=torch.device("cpu"),
                         )
-                    except TypeError:
+                    except Exception:
                         self.resnet_model = torch.load(
                             RESNET_MODEL_PATH,
                             map_location=torch.device("cpu"),
@@ -334,26 +335,13 @@ resnet_model = None
 yolo_model = None
 
 
+@functools.lru_cache(maxsize=1)
 def load_models():
+    """Delegate to ModelManager singleton for thread-safe model loading."""
     global resnet_model, yolo_model
-    if resnet_model is None:
-        try:
-            resnet_model = torch.load(
-                'models/cotton_crop_disease_classification/full_resnet50_model.pth',
-                map_location=torch.device('cpu'),
-            )
-            logger.info("ResNet50 model loaded successfully")
-        except Exception as e:
-            logger.warning(f"ResNet50 model not found or failed to load: {e}")
-            resnet_model = None
-    if yolo_model is None:
-        try:
-            yolo_model = YOLO('models/cotton_crop_growth_stage_prediction/best.pt')
-            logger.info("YOLOv8 model loaded successfully")
-        except Exception as e:
-            logger.warning(f"YOLOv8 model not found or failed to load: {e}")
-            yolo_model = None
+    resnet_model, yolo_model = model_manager.load_models()
     return resnet_model, yolo_model
+
 
 def ensure_models_loaded() -> None:
     load_models()
@@ -494,14 +482,28 @@ class GradCAM:
 # -------------------------------------------------------------------
 # INFERENCE PIPELINE
 # -------------------------------------------------------------------
-def preprocess_image_for_resnet(image: np.ndarray, target_size: Tuple[int, int] = (224, 224)) -> torch.Tensor:
-    transform = transforms.Compose([
-        transforms.ToPILImage(),
-        transforms.Resize(target_size),
-        transforms.ToTensor(),
-    ])
-    tensor = transform(image).unsqueeze(0)
-    return tensor
+
+# Define ONCE at module level — built once, reused every request.
+# Includes ImageNet normalization required by ResNet50 for correct inference.
+RESNET_TRANSFORM = transforms.Compose([
+    transforms.ToPILImage(),
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225],
+    ),
+])
+
+
+def preprocess_image_for_resnet(image: np.ndarray) -> torch.Tensor:
+    """Preprocess an RGB numpy image for ResNet50 inference.
+
+    Uses the module-level RESNET_TRANSFORM pipeline which includes
+    ImageNet normalization (mean=[0.485, 0.456, 0.406],
+    std=[0.229, 0.224, 0.225]).
+    """
+    return RESNET_TRANSFORM(image).unsqueeze(0)
 
 
 def infer_disease(image):
